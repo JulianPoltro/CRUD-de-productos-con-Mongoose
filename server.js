@@ -1,9 +1,11 @@
 const express = require('express')
 const app = express()
-process.loadEnvFile()
+const connectDB = require('./src/mongoose.js')
 const port = process.env.PORT ?? 3000
 const morgan = require('morgan')
-const mongoose = require('mongoose')
+const Product = require('./src/productModel.js')
 
-const URI = process.env.MONGODB_URLSTRING
-const DATABASE_NAME = process.env.DATABASE_NAME
+connectDB()
+
+app.use(express.json())
+app.use(morgan('dev'))
