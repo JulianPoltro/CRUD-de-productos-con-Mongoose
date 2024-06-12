@@ -25,6 +25,13 @@ app.get('/productos', async (req, res) => {
     res.status(500).send('Error al obtener los productos')
   }
 })
+//Obteniendo productos por ID
+app.get('/productos/:id', async (req, res) => {
+  const { id } = req.params
+  const producto = await Product.findById(id)
+  if (producto) return res.json(producto)
+  res.status(404).json({ message: 'Peli no encontrada' })
+})
 
 
   app.listen(port, () => {
