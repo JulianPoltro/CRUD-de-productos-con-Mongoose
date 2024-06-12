@@ -9,3 +9,24 @@ connectDB()
 
 app.use(express.json())
 app.use(morgan('dev'))
+
+app.get('/', (req, res) => {
+    res.json('Bienvenido a la API de la tienda de Productos Tecnologicos!')
+  })
+
+//Obtener la lista de todos los productos
+app.get('/productos', async (req, res) => {
+  const { categoria } = req.query
+  const query = !categoria ? {} : { genre: { $regex: categoria, $options: 'i' } }
+  try {
+    const productos = await Product.find(query)
+    res.json(productos)
+  } catch (error) {
+    res.status(500).send('Error al obtener los productos')
+  }
+})
+
+
+  app.listen(port, () => {
+    console.log(`Example app listening on http://localhost:${port}`)
+  })
